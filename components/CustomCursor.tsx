@@ -29,9 +29,9 @@ const CustomCursor: React.FC = () => {
 
   return (
     <>
-      {/* The large glow bubble (The "Bolla Gialla") */}
+      {/* The large glow bubble (The "Bolla Gialla") - Kept yellow but adjusted for White BG */}
       <motion.div
-        className="fixed top-0 left-0 w-32 h-32 bg-gold/20 rounded-full blur-2xl pointer-events-none z-40"
+        className="fixed top-0 left-0 w-32 h-32 bg-yellow-400/30 rounded-full blur-3xl pointer-events-none z-40 mix-blend-multiply"
         style={{
           x: cursorXSpring,
           y: cursorYSpring,
@@ -40,9 +40,9 @@ const CustomCursor: React.FC = () => {
         }}
       />
       
-      {/* The solid dot cursor */}
+      {/* The solid dot cursor - Black on white */}
       <motion.div
-        className={`fixed top-0 left-0 bg-gold rounded-full pointer-events-none z-50 mix-blend-difference flex items-center justify-center`}
+        className={`fixed top-0 left-0 bg-black rounded-full pointer-events-none z-50 flex items-center justify-center`}
         style={{
           x: cursorX,
           y: cursorY,
@@ -54,7 +54,7 @@ const CustomCursor: React.FC = () => {
         transition={{ type: "spring", stiffness: 300, damping: 20 }}
       >
         {isHovered && (
-          <span className="text-onyx text-[10px] font-bold">OPEN</span>
+          <span className="text-white text-[10px] font-bold">OPEN</span>
         )}
       </motion.div>
     </>

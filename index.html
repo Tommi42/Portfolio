@@ -8,7 +8,7 @@
     <!-- Google Fonts: JetBrains Mono for the industrial/code look -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100..800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100..800&family=Inter:wght@300;400;600;900&display=swap" rel="stylesheet">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -21,14 +21,12 @@
               sans: ['"Inter"', 'sans-serif'],
             },
             colors: {
-              onyx: '#0F0E0E',
+              onyx: '#0F0E0E', // Now used for Text
+              paper: '#FFFFFF', // New background
               copper: '#DB5A42',
               gold: '#BDBF09',
               teal: '#689689',
               petal: '#E5C3D1',
-            },
-            backgroundImage: {
-              'grid-pattern': "linear-gradient(to right, #333 1px, transparent 1px), linear-gradient(to bottom, #333 1px, transparent 1px)",
             }
           }
         }
@@ -36,8 +34,8 @@
     </script>
     <style>
       body {
-        background-color: #0F0E0E;
-        color: #e5e5e5;
+        background-color: #FFFFFF;
+        color: #0F0E0E;
         overflow-x: hidden;
         cursor: none; /* Hide default cursor */
       }
@@ -46,13 +44,17 @@
         width: 6px;
       }
       ::-webkit-scrollbar-track {
-        background: #0F0E0E;
+        background: #FFFFFF;
       }
       ::-webkit-scrollbar-thumb {
-        background: #333;
+        background: #0F0E0E;
       }
       ::-webkit-scrollbar-thumb:hover {
         background: #DB5A42;
+      }
+      
+      .text-stroke {
+        -webkit-text-stroke: 1px #0F0E0E;
       }
     </style>
   <script type="importmap">

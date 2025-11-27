@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import GridBackground from './components/GridBackground';
 import CustomCursor from './components/CustomCursor';
@@ -11,6 +10,7 @@ import ContactSection from './components/ContactSection';
 import WorkflowSection from './components/WorkflowSection';
 import Navigation from './components/Navigation';
 import { motion, AnimatePresence } from 'framer-motion';
+import { LogoDoodle } from './components/Doodles';
 
 const App: React.FC = () => {
   const [currentSection, setCurrentSection] = useState(0);
@@ -37,12 +37,6 @@ const App: React.FC = () => {
   }, [totalSections]);
 
   const handleWheel = useCallback((e: WheelEvent) => {
-    // Prevent default slightly aggressive to stop jitter, 
-    // but check if we are scrolling inside a container
-    // For this specific logic, we assume the page is locked to viewport
-    // and internal scrollbars handle their own overflow if needed.
-    // However, simplest is to just capture the major page movement.
-    
     if (Math.abs(e.deltaY) > 20) {
         if (e.deltaY > 0) {
             changeSection('next');
@@ -73,14 +67,14 @@ const App: React.FC = () => {
   }, [handleWheel, handleKeyDown]);
 
   return (
-    <main className="bg-onyx text-gray-200 h-screen w-screen overflow-hidden relative selection:bg-gold selection:text-onyx font-sans">
+    <main className="bg-paper text-onyx h-screen w-screen overflow-hidden relative selection:bg-black selection:text-white font-sans">
       <CustomCursor />
       <GridBackground />
       
       {/* Fixed Header */}
-      <header className="fixed top-0 left-0 w-full z-40 pointer-events-none p-6 md:p-8 flex justify-between items-start font-mono text-xs uppercase mix-blend-difference text-white">
+      <header className="fixed top-0 left-0 w-full z-40 pointer-events-none p-6 md:p-8 flex justify-between items-start text-onyx">
         <motion.div 
-            className="flex flex-col gap-1"
+            className="flex items-center gap-3"
             initial={{ opacity: 1, y: 0 }}
             animate={{ 
                 opacity: currentSection === 0 ? 1 : 0,
@@ -88,17 +82,11 @@ const App: React.FC = () => {
             }}
             transition={{ duration: 0.5 }}
         >
-            <span className="font-bold tracking-widest">Tommaso Cambursano</span>
-            <span className="opacity-50">Software Developer</span>
+            <div className="flex flex-col gap-0">
+                <span className="font-black tracking-tight text-lg">Tommaso Cambursano</span>
+                <span className="opacity-60 font-medium text-sm">Digital Studio</span>
+            </div>
         </motion.div>
-        
-        <div className="flex flex-col items-end gap-1 text-right">
-            <span className="flex items-center gap-2">
-                <span className="w-2 h-2 bg-gold rounded-full animate-pulse"></span>
-                ONLINE
-            </span>
-            <span className="opacity-50">Everywhere, Earth</span>
-        </div>
       </header>
 
       {/* Side Navigation */}
@@ -114,7 +102,7 @@ const App: React.FC = () => {
         animate={{ y: `-${currentSection * 100}%` }}
         transition={{ 
             duration: 0.8, 
-            ease: [0.6, 0.05, -0.01, 0.9] // Custom bezier for "inertial" feel
+            ease: [0.6, 0.05, -0.01, 0.9] 
         }}
       >
           {/* 01: HERO */}
@@ -124,28 +112,29 @@ const App: React.FC = () => {
           <Section id="about" title="Overview" number="01">
             <div className="flex flex-col h-full justify-center pb-20 px-4 md:px-20 max-w-7xl mx-auto w-full">
                 <div className="mb-8">
-                    <RunningText text="DESIGN • CODE • DEPLOY •" direction="left" />
+                    <RunningText text="Design Code Deploy" direction="left" />
                 </div>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 text-lg leading-relaxed text-gray-400">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 text-lg leading-relaxed text-gray-600">
                     <p>
-                        <span className="text-white font-bold">Hello.</span> I am a software developer freelancer :)
-                        <br></br>I always try to do the best that i can in the most fun way possible.
+                        <span className="text-black font-black text-2xl block mb-2">Hello.</span> 
+                        I am a freelance software developer :)
+                        <br></br>I always try to do the best that I can in the most fun way possible.
                     </p>
                     <div className="md:col-span-2 pt-8">
-                        <h3 className="text-copper font-mono text-sm mb-4">CORE_STACK:</h3>
-                        <ul className="grid grid-cols-2 md:grid-cols-4 gap-4 font-mono text-sm text-teal">
-                            <li className="border border-white/10 p-3 text-center hover:bg-white/5 transition-colors">Python</li>
-                            <li className="border border-white/10 p-3 text-center hover:bg-white/5 transition-colors">Docker</li>
-                            <li className="border border-white/10 p-3 text-center hover:bg-white/5 transition-colors">SQL / SQLAlchemy</li>
-                            <li className="border border-white/10 p-3 text-center hover:bg-white/5 transition-colors">Next.js</li>
+                        <h3 className="text-black font-black text-sm mb-6 border-b border-black/10 pb-2 inline-block tracking-wide">CORE STACK</h3>
+                        <ul className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm font-bold text-black">
+                            <li className="bg-gray-50 p-4 rounded-xl text-center hover:bg-black hover:text-white transition-colors cursor-crosshair">Python</li>
+                            <li className="bg-gray-50 p-4 rounded-xl text-center hover:bg-black hover:text-white transition-colors cursor-crosshair">Docker</li>
+                            <li className="bg-gray-50 p-4 rounded-xl text-center hover:bg-black hover:text-white transition-colors cursor-crosshair">SQL / SQLAlchemy</li>
+                            <li className="bg-gray-50 p-4 rounded-xl text-center hover:bg-black hover:text-white transition-colors cursor-crosshair">Next.js</li>
                         </ul>
                     </div>
                 </div>
             </div>
           </Section>
 
-          {/* 03: WORKFLOW (New) */}
+          {/* 03: WORKFLOW */}
           <Section id="workflow" title="How I Work" number="02">
              <WorkflowSection />
           </Section>
@@ -159,10 +148,11 @@ const App: React.FC = () => {
 
           {/* 05: EXPERIENCE */}
           <Section id="experience" title="Experience" number="04">
-             <div className="flex flex-col h-full justify-center pb-20 px-4 md:px-20 max-w-7xl mx-auto w-full">
+             {/* Removed wrapper padding for full width, flex center vertically */}
+             <div className="flex flex-col h-full justify-center w-full">
                 <ExperienceList />
-                <div className="mt-8">
-                    <RunningText text="INNOVATION • SYSTEM • LOGIC •" direction="right" />
+                <div className="mt-8 w-full">
+                    <RunningText text="Innovation System Logic" direction="right" />
                 </div>
              </div>
           </Section>

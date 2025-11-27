@@ -15,27 +15,27 @@ const WorkflowSection: React.FC = () => {
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6 }}
             >
-                <h3 className="text-3xl md:text-5xl font-bold uppercase mb-6 leading-tight">
+                <h3 className="text-4xl md:text-6xl font-black uppercase mb-6 leading-[0.9] tracking-tighter text-onyx">
                     Human Vision,<br/>
-                    <span className="text-gold">AI Velocity.</span>
+                    <span className="text-copper">AI Velocity.</span>
                 </h3>
                 
-                <p className="text-gray-400 text-lg mb-6 leading-relaxed">
+                <p className="text-gray-600 text-lg mb-6 leading-relaxed font-medium">
                     Using AI to make better and faster products with a full control of app building application. 
                     <br/><br/>
-                    AI* is making working <span className="text-white">faster</span>, <span className="text-white">cheaper</span>, and <span className="text-white">more reliable</span>.
-                    <span className="block mt-4 text-xs text-gray-500 opacity-50 tracking-wide font-mono">
+                    AI* is making working <span className="text-black font-bold bg-yellow-200 px-1">faster</span>, <span className="text-black font-bold bg-yellow-200 px-1">cheaper</span>, and <span className="text-black font-bold bg-yellow-200 px-1">more reliable</span>.
+                    <span className="block mt-4 text-xs text-gray-400 opacity-80 tracking-wide font-mono italic">
                         *put that way it sounds perfect
                     </span>
                 </p>
 
-                <div className="flex flex-col gap-2 mt-4 font-mono text-xs text-copper">
+                <div className="flex flex-col gap-2 mt-4 font-mono text-xs text-black font-bold">
                     <div className="flex items-center gap-2">
-                        <span className="w-2 h-2 bg-copper rounded-full"></span>
+                        <span className="w-2 h-2 bg-black rounded-full"></span>
                         <span>REDUCED DEV TIME</span>
                     </div>
                     <div className="flex items-center gap-2">
-                        <span className="w-2 h-2 bg-copper rounded-full"></span>
+                        <span className="w-2 h-2 bg-black rounded-full"></span>
                         <span>OPTIMIZED ARCHITECTURE</span>
                     </div>
                 </div>
@@ -48,7 +48,7 @@ const WorkflowSection: React.FC = () => {
                 initial={{ opacity: 0, scale: 0.95 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.8 }}
-                className="w-full bg-white/5 border border-white/10 rounded-lg backdrop-blur-sm"
+                className="w-full bg-white border border-black/10 rounded-lg shadow-xl"
             >
                 <WorkflowDiagram />
             </motion.div>
