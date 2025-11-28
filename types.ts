@@ -4,6 +4,9 @@ export interface Project {
   category: string;
   description: string;
   year: string;
+  details?: string;
+  skills?: string[];
+  image?: string;
 }
 
 export interface Experience {
@@ -12,4 +15,7 @@ export interface Experience {
   company: string;
   period: string;
   description: string;
+  details?: string;
+  skills?: string[];
+  image?: string;
 }

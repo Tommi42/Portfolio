@@ -1,8 +1,7 @@
 'use client';
 
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef, useLayoutEffect } from 'react';
 import GridBackground from '../components/GridBackground';
-import CustomCursor from '../components/CustomCursor';
 import Hero from '../components/Hero';
 import Section from '../components/Section';
 import ExperienceList from '../components/ExperienceList';
@@ -10,18 +9,42 @@ import ProjectGrid from '../components/ProjectGrid';
 import RunningText from '../components/RunningText';
 import ContactSection from '../components/ContactSection';
 import WorkflowSection from '../components/WorkflowSection';
-import Navigation from '../components/Navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { LogoDoodle } from '../components/Doodles';
+import { useSearchParams } from 'next/navigation';
 
-const App: React.FC = () => {
+import { Suspense } from 'react';
+
+const AppContent: React.FC = () => {
     const [currentSection, setCurrentSection] = useState(0);
+    const [isMobile, setIsMobile] = useState(false);
     const totalSections = 6;
     const isScrolling = useRef(false);
     const lastScrollTime = useRef(0);
 
     // Constants for scroll debounce
     const SCROLL_COOLDOWN = 800; // ms between section switches
+    const searchParams = useSearchParams();
+
+    useEffect(() => {
+        const sectionParam = searchParams.get('section');
+        if (sectionParam) {
+            const index = parseInt(sectionParam, 10);
+            if (!isNaN(index) && index >= 0 && index < totalSections) {
+                setCurrentSection(index);
+            }
+        }
+    }, [searchParams, totalSections]);
+
+    useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
+
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
 
     const changeSection = useCallback((direction: 'next' | 'prev') => {
         const now = Date.now();
@@ -39,6 +62,7 @@ const App: React.FC = () => {
     }, [totalSections]);
 
     const handleWheel = useCallback((e: WheelEvent) => {
+        if (isMobile) return; // Disable custom scroll on mobile
         if (Math.abs(e.deltaY) > 20) {
             if (e.deltaY > 0) {
                 changeSection('next');
@@ -46,9 +70,10 @@ const App: React.FC = () => {
                 changeSection('prev');
             }
         }
-    }, [changeSection]);
+    }, [changeSection, isMobile]);
 
     const handleKeyDown = useCallback((e: KeyboardEvent) => {
+        if (isMobile) return; // Disable custom keys on mobile
         if (e.key === 'ArrowDown' || e.key === 'PageDown') {
             e.preventDefault();
             changeSection('next');
@@ -56,21 +81,44 @@ const App: React.FC = () => {
             e.preventDefault();
             changeSection('prev');
         }
-    }, [changeSection]);
+    }, [changeSection, isMobile]);
 
     useEffect(() => {
+        if (isMobile) return; // Don't attach listeners on mobile
+
+        let touchStartY = 0;
+
+        const handleTouchStart = (e: TouchEvent) => {
+            touchStartY = e.touches[0].clientY;
+        };
+
+        const handleTouchEnd = (e: TouchEvent) => {
+            const touchEndY = e.changedTouches[0].clientY;
+            const diff = touchStartY - touchEndY;
+
+            if (Math.abs(diff) > 50) { // Swipe threshold
+                if (diff > 0) {
+                    changeSection('next');
+                } else {
+                    changeSection('prev');
+                }
+            }
+        };
+
         window.addEventListener('wheel', handleWheel, { passive: false });
         window.addEventListener('keydown', handleKeyDown);
+        // Touch listeners removed for mobile native scroll, but kept for desktop touch screens if needed?
+        // Actually, if we want native scroll on mobile, we should NOT prevent default or hijack touch.
+        // So we remove touch listeners entirely if isMobile is true.
 
         return () => {
             window.removeEventListener('wheel', handleWheel);
             window.removeEventListener('keydown', handleKeyDown);
         };
-    }, [handleWheel, handleKeyDown]);
+    }, [handleWheel, handleKeyDown, changeSection, isMobile]);
 
     return (
-        <main className="bg-paper text-onyx h-screen w-screen overflow-hidden relative selection:bg-black selection:text-white font-sans">
-            <CustomCursor />
+        <main className={`bg-paper text-onyx h-screen w-screen relative selection:bg-black selection:text-white font-sans ${isMobile ? 'overflow-y-auto overflow-x-hidden' : 'overflow-hidden'}`}>
             <GridBackground />
 
             {/* Fixed Header */}
@@ -79,8 +127,8 @@ const App: React.FC = () => {
                     className="flex items-center gap-3"
                     initial={{ opacity: 1, y: 0 }}
                     animate={{
-                        opacity: currentSection === 0 ? 1 : 0,
-                        y: currentSection === 0 ? 0 : -20
+                        opacity: isMobile ? 1 : (currentSection === 0 ? 1 : 0),
+                        y: isMobile ? 0 : (currentSection === 0 ? 0 : -20)
                     }}
                     transition={{ duration: 0.5 }}
                 >
@@ -91,20 +139,19 @@ const App: React.FC = () => {
                 </motion.div>
             </header>
 
-            {/* Side Navigation */}
-            <Navigation
-                currentSection={currentSection}
-                totalSections={totalSections}
-                onSelect={(index) => setCurrentSection(index)}
-            />
+
 
             {/* Main Sliding Container */}
             <motion.div
                 className="h-full w-full"
-                animate={{ y: `-${currentSection * 100}%` }}
+                animate={{ y: isMobile ? 0 : `-${currentSection * 100}%` }}
                 transition={{
                     duration: 0.8,
                     ease: [0.6, 0.05, -0.01, 0.9]
+                }}
+                style={{
+                    height: isMobile ? 'auto' : '100%',
+                    display: isMobile ? 'block' : 'block' // Ensure stacking
                 }}
             >
                 {/* 01: HERO */}
@@ -163,7 +210,17 @@ const App: React.FC = () => {
                 <ContactSection />
 
             </motion.div>
-        </main>
+
+
+        </main >
+    );
+};
+
+const App: React.FC = () => {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <AppContent />
+        </Suspense>
     );
 };
 

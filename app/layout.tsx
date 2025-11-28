@@ -1,25 +1,26 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import CustomCursor from "../components/CustomCursor";
 
 export const metadata: Metadata = {
-    title: "Tommaso Cambursano | Software Developer",
-    description: "Portfolio of Tommaso Cambursano",
+  title: "Tommaso Cambursano | Software Developer",
+  description: "Portfolio of Tommaso Cambursano",
 };
 
 export default function RootLayout({
-    children,
+  children,
 }: Readonly<{
-    children: React.ReactNode;
+  children: React.ReactNode;
 }>) {
-    return (
-        <html lang="it">
-            <head>
-                {/* Google Fonts */}
-                <link rel="preconnect" href="https://fonts.googleapis.com" />
-                <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-                <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100..800&family=Inter:wght@300;400;600;900&display=swap" rel="stylesheet" />
+  return (
+    <html lang="it">
+      <head>
+        {/* Google Fonts */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100..800&family=Inter:wght@300;400;600;900&display=swap" rel="stylesheet" />
 
-                {/* Tailwind CSS - Note: In a real Next.js app, you'd import Tailwind via PostCSS/globals.css, 
+        {/* Tailwind CSS - Note: In a real Next.js app, you'd import Tailwind via PostCSS/globals.css, 
             but for quick migration preserving existing setup, we can keep the CDN or better yet, 
             setup Tailwind properly. Given the user wants a migration, I should probably use the CDN 
             temporarily or assume globals.css handles it if I create it. 
@@ -28,10 +29,10 @@ export default function RootLayout({
             Let's stick to the CDN for now to match the exact previous behavior, 
             or better, I'll add the script tag.
         */}
-                <script src="https://cdn.tailwindcss.com"></script>
-                <script
-                    dangerouslySetInnerHTML={{
-                        __html: `
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
               tailwind.config = {
                 theme: {
                   extend: {
@@ -51,18 +52,26 @@ export default function RootLayout({
                 }
               }
             `,
-                    }}
-                />
-                <style>{`
+          }}
+        />
+        <style>{`
           body {
             background-color: #FFFFFF;
             color: #0F0E0E;
             overflow-x: hidden;
-            cursor: none; /* Hide default cursor */
           }
-          /* Custom scrollbar */
+          @media (min-width: 768px) {
+            body {
+              cursor: none; /* Hide default cursor only on desktop */
+            }
+          }
+          /* Custom scrollbar - Hidden as requested */
           ::-webkit-scrollbar {
-            width: 6px;
+            display: none;
+          }
+          body {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
           }
           ::-webkit-scrollbar-track {
             background: #FFFFFF;
@@ -78,8 +87,11 @@ export default function RootLayout({
             -webkit-text-stroke: 1px #0F0E0E;
           }
         `}</style>
-            </head>
-            <body>{children}</body>
-        </html>
-    );
+      </head>
+      <body>
+        <CustomCursor />
+        {children}
+      </body>
+    </html>
+  );
 }
