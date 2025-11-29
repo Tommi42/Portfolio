@@ -92,6 +92,19 @@ export default function ExperienceDetail() {
                                     <span className="text-gray-400 italic text-sm">No skills listed.</span>
                                 )}
                             </div>
+
+                            {experience.link && (
+                                <div className="mt-8">
+                                    <a
+                                        href={experience.link}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-block bg-black text-white px-8 py-4 rounded-full font-bold uppercase tracking-wider hover:bg-gray-800 transition-colors text-sm"
+                                    >
+                                        Visit Website
+                                    </a>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </motion.div>

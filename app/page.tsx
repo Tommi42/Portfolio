@@ -61,6 +61,19 @@ const AppContent: React.FC = () => {
         lastScrollTime.current = now;
     }, [totalSections]);
 
+    // Scroll to section on mobile when state changes (e.g. via Contact button)
+    useEffect(() => {
+        if (!isMobile) return;
+
+        const sectionIds = ['hero', 'about', 'workflow', 'projects', 'experience', 'contact'];
+        const targetId = sectionIds[currentSection];
+        const element = document.getElementById(targetId);
+
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [currentSection, isMobile]);
+
     const handleWheel = useCallback((e: WheelEvent) => {
         if (isMobile) return; // Disable custom scroll on mobile
         if (Math.abs(e.deltaY) > 20) {
@@ -155,7 +168,7 @@ const AppContent: React.FC = () => {
                 }}
             >
                 {/* 01: HERO */}
-                <Hero onNext={() => setCurrentSection(1)} />
+                <Hero onNext={() => setCurrentSection(1)} onContact={() => setCurrentSection(5)} />
 
                 {/* 02: OVERVIEW */}
                 <Section id="about" title="Overview" number="01">
@@ -176,7 +189,9 @@ const AppContent: React.FC = () => {
                                     <li className="bg-gray-50 p-4 rounded-xl text-center hover:bg-black hover:text-white transition-colors cursor-crosshair">Python</li>
                                     <li className="bg-gray-50 p-4 rounded-xl text-center hover:bg-black hover:text-white transition-colors cursor-crosshair">Docker</li>
                                     <li className="bg-gray-50 p-4 rounded-xl text-center hover:bg-black hover:text-white transition-colors cursor-crosshair">SQL / SQLAlchemy</li>
-                                    <li className="bg-gray-50 p-4 rounded-xl text-center hover:bg-black hover:text-white transition-colors cursor-crosshair">Next.js</li>
+                                    <li className="bg-gray-50 p-4 rounded-xl text-center hover:bg-black hover:text-white transition-colors cursor-crosshair">Next.js / React</li>
+                                    <li className="bg-gray-50 p-4 rounded-xl text-center hover:bg-black hover:text-white transition-colors cursor-crosshair">Git</li>
+                                    <li className="bg-gray-50 p-4 rounded-xl text-center hover:bg-black hover:text-white transition-colors cursor-crosshair">Figma</li>
                                 </ul>
                             </div>
                         </div>
