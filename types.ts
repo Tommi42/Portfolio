@@ -7,6 +7,7 @@ export interface Project {
   details?: string;
   skills?: string[];
   image?: string;
+  link?: string;
 }
 
 export interface Experience {
@@ -18,4 +19,5 @@ export interface Experience {
   details?: string;
   skills?: string[];
   image?: string;
+  link?: string;
 }

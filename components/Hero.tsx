@@ -5,15 +5,16 @@ import { RocketDoodle, SparkDoodle } from './Doodles';
 
 interface HeroProps {
   onNext: () => void;
+  onContact: () => void;
 }
 
-const Hero: React.FC<HeroProps> = ({ onNext }) => {
+const Hero: React.FC<HeroProps> = ({ onNext, onContact }) => {
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 500], [0, 200]);
   const y2 = useTransform(scrollY, [0, 500], [0, -100]);
 
   return (
-    <section className="relative h-[100svh] flex flex-col justify-center items-center overflow-hidden border-b border-black/5 shrink-0 w-full bg-paper">
+    <section id="hero" className="relative h-[100svh] flex flex-col justify-center items-center overflow-hidden border-b border-black/5 shrink-0 w-full bg-paper">
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
         <motion.div
           style={{ y: y1 }}
@@ -56,7 +57,7 @@ const Hero: React.FC<HeroProps> = ({ onNext }) => {
           transition={{ duration: 1, delay: 0.2 }}
           className="text-6xl md:text-9xl font-black uppercase tracking-tighter mb-4 font-sans text-onyx leading-[0.85]"
         >
-          Tommi<br />
+          Tommi.<br />
           <span className="relative inline-block">
             Engineer
             {/* Rocket Doodle Absolute */}
@@ -81,6 +82,20 @@ const Hero: React.FC<HeroProps> = ({ onNext }) => {
           digital stuff for
           <span className="text-black font-bold"> people </span>
         </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.7 }}
+          className="mt-10"
+        >
+          <button
+            onClick={onContact}
+            className="inline-block bg-black text-white px-8 py-4 rounded-full font-bold uppercase tracking-wider hover:bg-gray-800 transition-colors pointer-events-auto cursor-pointer"
+          >
+            Contact Me
+          </button>
+        </motion.div>
       </div>
 
       <motion.button

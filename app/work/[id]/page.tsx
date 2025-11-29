@@ -69,9 +69,7 @@ export default function WorkDetail() {
                             <h2 className="text-2xl font-bold mb-6">About the Project</h2>
                             <div className="prose prose-lg text-gray-600 leading-relaxed">
                                 <p>{project.details || "No additional details available for this project."}</p>
-                                <p className="mt-4">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                </p>
+
                             </div>
                         </div>
                         <div>
@@ -87,6 +85,19 @@ export default function WorkDetail() {
                                     <li className="text-gray-400 italic">No technologies listed.</li>
                                 )}
                             </ul>
+
+                            {project.link && (
+                                <div className="mt-10">
+                                    <a
+                                        href={project.link}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-block bg-black text-white px-8 py-4 rounded-full font-bold uppercase tracking-wider hover:bg-gray-800 transition-colors"
+                                    >
+                                        Visit Project
+                                    </a>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </motion.div>
